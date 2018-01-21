@@ -17,6 +17,11 @@ defmodule BittrexApi do
     invoke_public_api("/public/getmarkets?" <> URI.encode_query(params))
   end
 
+  def fee("trade", "maker"), do: 0.25
+  def fee("trade", "taker"), do: 0.25
+  def fee("deposit", _coin), do: 0
+  def fee("withdraw", _coin), do: 0
+
   def symbols do
     [ "BTC-LTC","BTC-DOGE","BTC-VTC","BTC-PPC","BTC-FTC","BTC-RDD","BTC-NXT","BTC-DASH","BTC-POT","BTC-BLK","BTC-EMC2",
       "BTC-XMY","BTC-AUR","BTC-EFL","BTC-GLD","BTC-SLR","BTC-PTC","BTC-GRS","BTC-NLG","BTC-RBY","BTC-XWC","BTC-MONA",
