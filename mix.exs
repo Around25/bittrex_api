@@ -11,14 +11,14 @@ defmodule BittrexApi.Mixfile do
       package: package(),
       deps: deps(),
       name: "bittrex_api",
-      source_url: "https://git.cloud.around25.net/startups/trendycoins/bittrex_api"
+      source_url: "https://github.com/Around25/bittrex_api"
     ]
   end
 
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:httpoison],
+      extra_applications: [:httpoison, :gen_stage, :poison, :decimal, :websockex],
       env: [api_endpoint: "https://bittrex.com/api",
             api_version: "v1.1"]
     ]
@@ -27,8 +27,11 @@ defmodule BittrexApi.Mixfile do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:gen_stage, "~> 0.12.2"},
       {:poison, "~> 3.1"},
+      {:decimal, "~> 1.4"},
       {:httpoison, "~> 0.13"},
+      {:websockex, "~> 0.4.0"},
       {:ex_doc, ">= 0.0.0", only: :dev}
     ]
   end
@@ -42,7 +45,7 @@ defmodule BittrexApi.Mixfile do
       files: ["lib", "mix.exs", "README*", "LICENSE*"],
       maintainers: ["Cosmin Harangus"],
       licenses: ["MIT"],
-      links: %{"GitHub" => "https://git.cloud.around25.net/startups/trendycoins/bittrex_api"}
+      links: %{"GitHub" => "https://github.com/Around25/bittrex_api"}
     ]
   end
 end
