@@ -35,7 +35,8 @@ defmodule BittrexApi.WebSocket do
   def handle_frame(msg, state) do IO.inspect(msg); {:ok, state} end
 
   defp process_message(%{"chanId" => chanId, "channel" => "ticker", "event" => "subscribed", "pair" => pair} = msg, state) do
-    state = Map.merge(state, Map.new([{chanId, pair}]))
+    <<coin::binary-size(3), base::binary>> = pair
+    state = Map.merge(state, Map.new([{chanId, %{base: base, coin: coin}}]))
     {:ok, state}
   end
   defp process_message([_ | ["hb"]], state), do: {:ok, state}
@@ -49,8 +50,10 @@ defmodule BittrexApi.WebSocket do
     low = low |> Decimal.new() |> Decimal.to_string(:normal)
     high = high |> Decimal.new() |> Decimal.to_string(:normal)
 
+    pair = Map.get(state, chanId)
     event = %{
-      pair: Map.get(state, chanId),
+      base: pair.base,
+      coin: pair.coin,
       ask: ask,
       bid: bid,
       last: last_price,
